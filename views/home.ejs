@@ -3,10 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>URL List</title>
 </head>
 <body>
-    <h1>heyy from server</h1>
-    <% url.forEach(url=>{%><li>url.shortId</li><%})%>
+    <h1>Url Shortner</h1>
+    
+    <% if (locals.id) { %>
+        <p>URL Generated: http://localhost:8001/url/<%= locals.id %></p>
+    <% } %>
+    
+    <div>
+        <form method="post" action="/url">
+            <label>Enter Your Original URL</label>
+            <input 
+                type="text" 
+                name="url" 
+                placeholder="https://example.com"
+            />
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>S. No</th>
+                    <th>Short ID</th>
+                    <th>Redirect</th>
+                    <th>Clicks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% newUrl.forEach((url, index) => { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><%= url.shortId %></td>
+                        <td><a href="<%= url.redirectURL %>" target="_blank"><%= url.redirectURL %></a></td>
+                        <td><%= url.visitHistory.length %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
